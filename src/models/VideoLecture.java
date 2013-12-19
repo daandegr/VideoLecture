@@ -64,7 +64,7 @@ public class VideoLecture implements Serializable {
         LectureMessage msg = new LectureMessage();
 
         lecture.setCOURSEID(course.getCOURSEID());
-        msg.setMESSAGE("Welcome students! This lecture is about " + course.getCOURSENAME() + ", and your lecturer is: " + user.getFIRSTNAME() + user.getLASTNAME());
+        msg.setMESSAGE("Welcome students! This lecture is about " + course.getCOURSENAME() + ", and your lecturer is: " + user.getFIRSTNAME() +" "+ user.getLASTNAME());
         msg.setUSERID(user.getUSERID());
         msg.setMyLecture(lecture);
         Date date = new Date();
