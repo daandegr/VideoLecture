@@ -59,10 +59,6 @@ public class VideoLecture implements Serializable {
         this.messages = messages;
     }
     
-    public void addMessage(LectureMessage msg){
-        messages.add(msg);
-    }
-    
     public static void createLecture(Course course, User user){
         VideoLecture lecture = new VideoLecture();
         LectureMessage msg = new LectureMessage();
@@ -74,12 +70,12 @@ public class VideoLecture implements Serializable {
         Date date = new Date();
         msg.setTS(new Timestamp(date.getTime()));
 
-        lecture.addMessage(msg);
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
 
         session.save(lecture);
+        session.save(msg);
         tx.commit();
     }
     
