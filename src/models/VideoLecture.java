@@ -65,8 +65,10 @@ public class VideoLecture implements Serializable {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
         Criteria criteria = session.createCriteria(VideoLecture.class).add(Restrictions.eq("COURSEID", courseId));
-        return (VideoLecture)criteria.uniqueResult();
         
+        List<VideoLecture> lectures = criteria.list();
+        
+        return lectures.get(lectures.size()-1);        
     }
     
     public static void createLecture(Course course, User user){
