@@ -9,8 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import service.HibernateUtil;
 
 
@@ -59,22 +61,33 @@ public class VideoLecture implements Serializable {
         this.messages = messages;
     }
     
+    public static VideoLecture getLecture(int courseId){
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        Criteria criteria = session.createCriteria(VideoLecture.class).add(Restrictions.eq("COURSEID", courseId));
+        return (VideoLecture)criteria.uniqueResult();
+        
+    }
+    
     public static void createLecture(Course course, User user){
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        
         VideoLecture lecture = new VideoLecture();
+        session.save(lecture);
+        tx.commit();
+        
+        
         LectureMessage msg = new LectureMessage();
 
         lecture.setCOURSEID(course.getCOURSEID());
         msg.setMESSAGE("Welcome students! This lecture is about " + course.getCOURSENAME() + ", and your lecturer is: " + user.getFIRSTNAME() +" "+ user.getLASTNAME());
         msg.setUSERID(user.getUSERID());
-        msg.setMyLecture(lecture);
+        msg.setMyLecture(getLecture(Course.getActiveCourse().getCOURSEID()));
         Date date = new Date();
         msg.setTS(new Timestamp(date.getTime()));
 
-
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = session.beginTransaction();
-
-        session.save(lecture);
+        
         session.save(msg);
         tx.commit();
     }
