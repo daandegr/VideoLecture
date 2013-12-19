@@ -12,5 +12,7 @@
     <mapping class="models.Course"/>
     <mapping class="models.User"/>
     <mapping class="models.CourseTeacher"/>
+    <mapping class="models.LectureMessage"/>
+    <mapping class="models.VideoLecture"/>
   </session-factory>
 </hibernate-configuration>

@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.Course;
 import models.User;
+import models.VideoLecture;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -150,6 +151,9 @@ public class SelectCourse extends javax.swing.JFrame {
             Logger.getLogger(SelectCourse.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        
+        VideoLecture.createLecture(course, user);
+
         course.setVIDEOLECTUREACTIVE(true);
         Course.updateCourse(course);
 
@@ -163,7 +167,7 @@ public class SelectCourse extends javax.swing.JFrame {
 
         course.setVIDEOLECTUREACTIVE(false);
         Course.updateCourse(course);
-        
+
         try {
             Runtime.getRuntime().exec("\"C:\\Program Files (x86)\\Adobe\\Flash Media Live Encoder 3.2\\FMLECmd.exe\" /s rtmp://live.justin.tv/app+live_51868415_pQY4AEqhAKvNE5Yaje6tPZaedT0rk2");
             Thread.sleep(2000);
@@ -187,7 +191,7 @@ public class SelectCourse extends javax.swing.JFrame {
             client.enterLocalPassiveMode();
             client.changeWorkingDirectory("PDL/VideoLectures");
             client.setFileType(FTP.BINARY_FILE_TYPE);
-            
+
 //            File firstLocalFile = new File("F:\\videoLectures\\videoLecture.f4v");
 // 
 //            String firstRemoteFile = "videoLecture.f4v";
@@ -199,22 +203,22 @@ public class SelectCourse extends javax.swing.JFrame {
 //            if (done) {
 //                System.out.println("The first file is uploaded successfully.");
 //            }
-            
+
             File secondLocalFile = new File("F:\\videoLectures\\videoLecture.f4v");
             String secondRemoteFile = "videoLecture.f4v";
             InputStream inputStream = new FileInputStream(secondLocalFile);
- 
+
             System.out.println("Start uploading second file");
             OutputStream outputStream = client.storeFileStream(secondRemoteFile);
             byte[] bytesIn = new byte[4096];
             int read = 0;
- 
+
             while ((read = inputStream.read(bytesIn)) != -1) {
                 outputStream.write(bytesIn, 0, read);
             }
             inputStream.close();
             outputStream.close();
- 
+
             boolean completed = client.completePendingCommand();
             if (completed) {
                 System.out.println("The second file is uploaded successfully.");
@@ -233,7 +237,7 @@ public class SelectCourse extends javax.swing.JFrame {
 //            
 //            client.storeFile(filename, fis);
 //            
-            client.rename(secondRemoteFile, courseName+".f4v");
+            client.rename(secondRemoteFile, courseName + ".f4v");
             client.logout();
         } catch (IOException e) {
             e.printStackTrace();
@@ -252,7 +256,6 @@ public class SelectCourse extends javax.swing.JFrame {
     public Course getSelectedCourse() {
         return Course.getCourseFromName(cmbCourses.getSelectedItem().toString());
     }
-
     /**
      * @param args the command line arguments
      */
