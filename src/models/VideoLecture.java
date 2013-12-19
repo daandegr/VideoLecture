@@ -25,7 +25,7 @@ public class VideoLecture implements Serializable {
     private int LECTUREID;
     private int COURSEID;
     
-    @OneToMany(mappedBy="myLecture")
+    @OneToMany(mappedBy="LECTUREID")
     private List<LectureMessage> messages;
 
     public VideoLecture(int LECTUREID, int COURSEID, List<LectureMessage> messages) {
@@ -85,7 +85,7 @@ public class VideoLecture implements Serializable {
 
         msg.setMESSAGE("Welcome students! This lecture is about " + course.getCOURSENAME() + ", and your lecturer is: " + user.getFIRSTNAME() +" "+ user.getLASTNAME());
         msg.setUSERID(user.getUSERID());
-        msg.setMyLecture(getLecture(Course.getActiveCourse().getCOURSEID()));
+        msg.setLECTUREID(getLecture(Course.getActiveCourse().getCOURSEID()).getLECTUREID());
         Date date = new Date();
         msg.setTS(new Timestamp(date.getTime()));
 

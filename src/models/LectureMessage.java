@@ -26,18 +26,17 @@ public class LectureMessage implements Serializable {
     private int USERID;
     private Timestamp TS;
     private String MESSAGE;
-    
-    @ManyToOne
-    @JoinColumn(name="LECTUREID", insertable = false, updatable = false)
-    private VideoLecture myLecture;
+    private int LECTUREID;
 
-    public LectureMessage(int MESSAGEID, int USERID, Timestamp TS, String MESSAGE, VideoLecture myLecture) {
+    public LectureMessage(int MESSAGEID, int USERID, Timestamp TS, String MESSAGE, int LECTUREID) {
         this.MESSAGEID = MESSAGEID;
         this.USERID = USERID;
         this.TS = TS;
         this.MESSAGE = MESSAGE;
-        this.myLecture = myLecture;
+        this.LECTUREID = LECTUREID;
     }
+
+    
 
     public LectureMessage() {
     }
@@ -74,13 +73,15 @@ public class LectureMessage implements Serializable {
         this.MESSAGE = MESSAGE;
     }
 
-    public VideoLecture getMyLecture() {
-        return myLecture;
+    public int getLECTUREID() {
+        return LECTUREID;
     }
 
-    public void setMyLecture(VideoLecture myLecture) {
-        this.myLecture = myLecture;
+    public void setLECTUREID(int LECTUREID) {
+        this.LECTUREID = LECTUREID;
     }
+
+    
     
     
 }
