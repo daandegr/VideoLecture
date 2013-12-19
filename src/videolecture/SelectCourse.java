@@ -151,11 +151,10 @@ public class SelectCourse extends javax.swing.JFrame {
             Logger.getLogger(SelectCourse.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        
-        VideoLecture.createLecture(course, user);
-
         course.setVIDEOLECTUREACTIVE(true);
         Course.updateCourse(course);
+        
+        VideoLecture.createLecture(course, user);
 
     }//GEN-LAST:event_btnStartActionPerformed
 

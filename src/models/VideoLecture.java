@@ -74,22 +74,23 @@ public class VideoLecture implements Serializable {
         Transaction tx = session.beginTransaction();
         
         VideoLecture lecture = new VideoLecture();
+        lecture.setCOURSEID(course.getCOURSEID());
         session.save(lecture);
         tx.commit();
         
         
         LectureMessage msg = new LectureMessage();
 
-        lecture.setCOURSEID(course.getCOURSEID());
         msg.setMESSAGE("Welcome students! This lecture is about " + course.getCOURSENAME() + ", and your lecturer is: " + user.getFIRSTNAME() +" "+ user.getLASTNAME());
         msg.setUSERID(user.getUSERID());
         msg.setMyLecture(getLecture(Course.getActiveCourse().getCOURSEID()));
         Date date = new Date();
         msg.setTS(new Timestamp(date.getTime()));
 
-        
-        session.save(msg);
-        tx.commit();
+        Session session2 = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx2 = session2.beginTransaction();
+        session2.save(msg);
+        tx2.commit();
     }
     
     
